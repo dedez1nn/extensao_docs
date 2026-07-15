@@ -2,136 +2,311 @@
 <html lang="pt-br">
 <head>
   <meta charset="utf-8" />
-  <title>Gerador de CPF e RG</title>
+  <title>Gerador de Documentos</title>
   <style>
     :root {
-      --bg: #ffffff;
-      --fg: #1a1a1a;
-      --btn-bg: #f0f0f0;
-      --btn-hover: #e0e0e0;
-      --border: #cccccc;
+      --janela: #f0f0f0;
+      --texto: #1a1a1a;
+      --texto-suave: #5a5a5a;
+      --borda: #a0a0a0;
+      --campo-bg: #ffffff;
+      --sombra-escura: rgba(0, 0, 0, 0.28);
+      --realce-clara: rgba(255, 255, 255, 0.65);
+      --barra-a: #6fb0ea;
+      --barra-b: #1a5aa8;
+      --acao-a: #7ec2f6;
+      --acao-b: #2e7fd1;
+      --acao-borda: #1c5da0;
+      --acao-fg: #ffffff;
     }
     @media (prefers-color-scheme: dark) {
       :root:not([data-theme]) {
-        --bg: #1e1e1e;
-        --fg: #e8e8e8;
-        --btn-bg: #333333;
-        --btn-hover: #444444;
-        --border: #555555;
+        --janela: #2b2b2b;
+        --texto: #e6e6e6;
+        --texto-suave: #a0a0a0;
+        --borda: #4a4a4a;
+        --campo-bg: #1e1e1e;
+        --sombra-escura: rgba(0, 0, 0, 0.5);
+        --realce-clara: rgba(255, 255, 255, 0.12);
+        --barra-a: #3d5f7d;
+        --barra-b: #14202c;
+        --acao-a: #5b9bd5;
+        --acao-b: #1857a4;
+        --acao-borda: #0d3a70;
+        --acao-fg: #ffffff;
       }
     }
     :root[data-theme="dark"] {
-      --bg: #1e1e1e;
-      --fg: #e8e8e8;
-      --btn-bg: #333333;
-      --btn-hover: #444444;
-      --border: #555555;
+      --janela: #2b2b2b;
+      --texto: #e6e6e6;
+      --texto-suave: #a0a0a0;
+      --borda: #4a4a4a;
+      --campo-bg: #1e1e1e;
+      --sombra-escura: rgba(0, 0, 0, 0.5);
+      --realce-clara: rgba(255, 255, 255, 0.12);
+      --barra-a: #3d5f7d;
+      --barra-b: #14202c;
+      --acao-a: #5b9bd5;
+      --acao-b: #1857a4;
+      --acao-borda: #0d3a70;
+      --acao-fg: #ffffff;
     }
     :root[data-theme="light"] {
-      --bg: #ffffff;
-      --fg: #1a1a1a;
-      --btn-bg: #f0f0f0;
-      --btn-hover: #e0e0e0;
-      --border: #cccccc;
+      --janela: #f0f0f0;
+      --texto: #1a1a1a;
+      --texto-suave: #5a5a5a;
+      --borda: #a0a0a0;
+      --campo-bg: #ffffff;
+      --sombra-escura: rgba(0, 0, 0, 0.28);
+      --realce-clara: rgba(255, 255, 255, 0.65);
+      --barra-a: #6fb0ea;
+      --barra-b: #1a5aa8;
+      --acao-a: #7ec2f6;
+      --acao-b: #2e7fd1;
+      --acao-borda: #1c5da0;
+      --acao-fg: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
     }
     body {
-      width: 270px;
-      font-family: sans-serif;
-      padding: 12px;
-      background: var(--bg);
-      color: var(--fg);
+      width: 300px;
+      margin: 0;
+      padding: 0 14px 12px;
+      font-family: "Segoe UI", Tahoma, Verdana, "DejaVu Sans", "Liberation Sans", sans-serif;
+      background: var(--janela);
+      color: var(--texto);
+      font-size: 12.5px;
     }
-    button {
-      width: 100%;
-      padding: 8px;
-      margin-bottom: 8px;
-      cursor: pointer;
-      background: var(--btn-bg);
-      color: var(--fg);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-    }
-    button:hover {
-      background: var(--btn-hover);
-    }
-    .resultado {
+
+    .barra-titulo {
       display: flex;
       align-items: center;
       gap: 6px;
-      margin-bottom: 10px;
+      margin: 0 -14px 12px;
+      padding: 6px 10px;
+      background: linear-gradient(to bottom, var(--barra-a), var(--barra-b));
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
     }
-    .resultado input,
-    .resultado select {
-      font-family: monospace;
-      padding: 2px;
-      background: var(--bg);
-      color: var(--fg);
-      border: 1px solid var(--border);
-      border-radius: 4px;
+    .barra-titulo img {
+      width: 15px;
+      height: 15px;
     }
-    .resultado input {
+    .barra-titulo span {
       flex: 1;
-    }
-    .resultado select {
-      flex: 0 0 auto;
-      width: 88px;
-    }
-    #ie {
-      flex: 0 0 auto;
-      width: auto;
-    }
-    .resultado button {
-      width: auto;
-      margin-bottom: 0;
-    }
-    #btn-tema {
-      background: transparent;
+      color: #fff;
       font-size: 12px;
-      padding: 4px;
+      font-weight: 700;
+      text-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);
+    }
+    .btn-tema {
+      flex: none;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 3px;
+      color: #fff;
+      font-size: 10px;
+      padding: 2px 6px;
+      cursor: pointer;
+    }
+    .btn-tema:hover {
+      background: rgba(255, 255, 255, 0.22);
+    }
+
+    fieldset.campo {
+      margin: 0 0 10px;
+      padding: 8px 10px 10px;
+      border: 1px solid var(--borda);
+      border-radius: 3px;
+    }
+    fieldset.campo legend {
+      padding: 0 5px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--texto-suave);
+    }
+    .linha-campo {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .linha-valor {
+      margin-top: 6px;
+    }
+
+    .btn-gerar {
+      position: relative;
+      overflow: hidden;
+      flex: none;
+      background: linear-gradient(to bottom, var(--acao-a), var(--acao-b));
+      border: 1px solid var(--acao-borda);
+      border-radius: 3px;
+      box-shadow: inset 0 1px 0 var(--realce-clara), 0 1px 1px var(--sombra-escura);
+      color: var(--acao-fg);
+      text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.3);
+      padding: 5px 12px;
+      font-size: 11.5px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .btn-gerar::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 55%;
+      background: linear-gradient(to bottom, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0));
+      pointer-events: none;
+    }
+    .btn-gerar:hover {
+      filter: brightness(1.06);
+    }
+    .btn-gerar:active {
+      filter: brightness(0.94);
+      box-shadow: inset 0 1px 2px var(--sombra-escura);
+    }
+
+    .valor {
+      flex: 0 0 auto;
+      min-width: 0;
+      background: var(--campo-bg);
+      color: var(--texto);
+      border: 1px solid var(--borda);
+      border-radius: 2px;
+      box-shadow: inset 1px 1px 2px var(--sombra-escura);
+      font-family: "Courier New", monospace;
+      font-size: 12.5px;
+      padding: 3px 5px;
+    }
+    .valor:focus {
+      outline: 1px solid var(--acao-b);
+      outline-offset: -1px;
+    }
+
+    .uf {
+      flex: none;
+      width: 74px;
+      background: var(--campo-bg);
+      color: var(--texto);
+      border: 1px solid var(--borda);
+      border-radius: 2px;
+      box-shadow: inset 1px 1px 2px var(--sombra-escura);
+      font-size: 12px;
+      padding: 3px 2px;
+    }
+
+    .btn-copiar {
+      flex: none;
+      width: 25px;
+      height: 25px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(to bottom, #fdfdfd, #d8d8d8);
+      color: var(--texto-suave);
+      border: 1px solid var(--borda);
+      border-radius: 2px;
+      box-shadow: inset 0 1px 0 #fff;
+      cursor: pointer;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme]) .btn-copiar {
+        background: linear-gradient(to bottom, #454545, #2a2a2a);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15);
+        color: var(--texto);
+      }
+    }
+    :root[data-theme="dark"] .btn-copiar {
+      background: linear-gradient(to bottom, #454545, #2a2a2a);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15);
+      color: var(--texto);
+    }
+    .btn-copiar:active {
+      box-shadow: inset 1px 1px 2px var(--sombra-escura);
+    }
+
+    .barra-status {
+      margin: 4px -14px -12px;
+      padding: 4px 10px;
+      border-top: 1px solid var(--borda);
+      box-shadow: inset 0 1px 0 var(--realce-clara);
+      text-align: right;
+    }
+    .link-opcoes {
+      background: none;
+      border: none;
+      color: var(--texto-suave);
+      font-size: 11px;
+      cursor: pointer;
+      padding: 2px;
+    }
+    .link-opcoes:hover {
+      color: var(--texto);
+      text-decoration: underline;
     }
   </style>
 </head>
 <body>
-  <div class="secao" id="secao-tema">
-    <button id="btn-tema">Tema: Automático</button>
-  </div>
-
-  <div class="secao" id="secao-cpf">
-    <button id="btn-cpf">Gerar CPF</button>
-    <div class="resultado">
-      <input id="cpf" type="text" readonly />
-      <button id="copiar-cpf">Copiar</button>
+  <div class="barra-titulo">
+    <img src="icons/icone-16.png" alt="" />
+    <span>Gerador de Documentos</span>
+    <div id="secao-tema">
+      <button id="btn-tema" class="btn-tema">Tema: Automático</button>
     </div>
   </div>
 
-  <div class="secao" id="secao-rg">
-    <button id="btn-rg">Gerar RG</button>
-    <div class="resultado">
-      <input id="rg" type="text" readonly />
-      <button id="copiar-rg">Copiar</button>
+  <fieldset class="campo" id="secao-cpf">
+    <legend>CPF</legend>
+    <div class="linha-campo">
+      <button id="btn-cpf" class="btn-gerar" aria-label="Gerar CPF">Gerar</button>
+      <input id="cpf" class="valor" size="14" type="text" readonly />
+      <button id="copiar-cpf" class="btn-copiar" aria-label="Copiar CPF" title="Copiar">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+      </button>
     </div>
-  </div>
+  </fieldset>
 
-  <div class="secao" id="secao-cnpj">
-    <button id="btn-cnpj">Gerar CNPJ</button>
-    <div class="resultado">
-      <input id="cnpj" type="text" readonly />
-      <button id="copiar-cnpj">Copiar</button>
+  <fieldset class="campo" id="secao-rg">
+    <legend>RG</legend>
+    <div class="linha-campo">
+      <button id="btn-rg" class="btn-gerar" aria-label="Gerar RG">Gerar</button>
+      <input id="rg" class="valor" size="9" type="text" readonly />
+      <button id="copiar-rg" class="btn-copiar" aria-label="Copiar RG" title="Copiar">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+      </button>
     </div>
-  </div>
+  </fieldset>
 
-  <div class="secao" id="secao-ie">
-    <div class="resultado">
-      <select id="uf-ie"></select>
-      <button id="btn-ie">Gerar</button>
-      <button id="copiar-ie">Copiar</button>
+  <fieldset class="campo" id="secao-cnpj">
+    <legend>CNPJ</legend>
+    <div class="linha-campo">
+      <button id="btn-cnpj" class="btn-gerar" aria-label="Gerar CNPJ">Gerar</button>
+      <input id="cnpj" class="valor" size="18" type="text" readonly />
+      <button id="copiar-cnpj" class="btn-copiar" aria-label="Copiar CNPJ" title="Copiar">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+      </button>
     </div>
-    <div class="resultado">
-      <input id="ie" size="14" type="text" readonly />
-    </div>
-  </div>
+  </fieldset>
 
-  <button id="btn-opcoes">Opções da extensão</button>
+  <fieldset class="campo" id="secao-ie">
+    <legend>Inscrição Estadual</legend>
+    <div class="linha-campo">
+      <select id="uf-ie" class="uf"></select>
+      <button id="btn-ie" class="btn-gerar" aria-label="Gerar IE">Gerar</button>
+      <button id="copiar-ie" class="btn-copiar" aria-label="Copiar IE" title="Copiar">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+      </button>
+    </div>
+    <div class="linha-campo linha-valor">
+      <input id="ie" class="valor" size="14" type="text" readonly />
+    </div>
+  </fieldset>
+
+  <div class="barra-status">
+    <button id="btn-opcoes" class="link-opcoes">Opções da extensão</button>
+  </div>
 
   <script src="estados.js"></script>
   <script src="gerador.js"></script>

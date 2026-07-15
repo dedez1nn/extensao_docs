@@ -2,121 +2,209 @@
 <html lang="pt-br">
 <head>
   <meta charset="utf-8" />
-  <title>Opções - Gerador CPF/RG</title>
+  <title>Opções - Gerador de Documentos</title>
   <style>
     :root {
-      --bg: #ffffff;
-      --fg: #1a1a1a;
-      --border: #cccccc;
-      --card-bg: #f7f7f7;
+      --fundo: #d9d9d9;
+      --janela: #f0f0f0;
+      --texto: #1a1a1a;
+      --texto-suave: #5a5a5a;
+      --borda: #a0a0a0;
+      --campo-bg: #ffffff;
+      --sombra-escura: rgba(0, 0, 0, 0.28);
+      --realce-clara: rgba(255, 255, 255, 0.65);
+      --barra-a: #6fb0ea;
+      --barra-b: #1a5aa8;
+      --acao-b: #1a5aa8;
     }
     @media (prefers-color-scheme: dark) {
       :root {
-        --bg: #1e1e1e;
-        --fg: #e8e8e8;
-        --border: #444444;
-        --card-bg: #2a2a2a;
+        --fundo: #141414;
+        --janela: #2b2b2b;
+        --texto: #e6e6e6;
+        --texto-suave: #a0a0a0;
+        --borda: #4a4a4a;
+        --campo-bg: #1e1e1e;
+        --sombra-escura: rgba(0, 0, 0, 0.6);
+        --realce-clara: rgba(255, 255, 255, 0.12);
+        --barra-a: #3d5f7d;
+        --barra-b: #14202c;
+        --acao-b: #5b9bd5;
       }
     }
+
+    * {
+      box-sizing: border-box;
+    }
     body {
-      max-width: 480px;
-      margin: 24px auto;
-      font-family: sans-serif;
-      background: var(--bg);
-      color: var(--fg);
-      padding: 0 16px;
+      margin: 0;
+      padding: 40px 20px;
+      font-family: "Segoe UI", Tahoma, Verdana, "DejaVu Sans", "Liberation Sans", sans-serif;
+      background: var(--fundo);
+      color: var(--texto);
+      font-size: 13px;
     }
-    h1 {
-      font-size: 18px;
+
+    .janela-dialogo {
+      max-width: 460px;
+      margin: 0 auto;
+      background: var(--janela);
+      border: 1px solid var(--borda);
+      border-radius: 4px;
+      box-shadow: 0 6px 24px var(--sombra-escura);
+      overflow: hidden;
     }
-    .cartao {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 16px;
-      margin-bottom: 16px;
+
+    .barra-titulo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 14px;
+      background: linear-gradient(to bottom, var(--barra-a), var(--barra-b));
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
     }
-    label {
+    .barra-titulo img {
+      width: 18px;
+      height: 18px;
+    }
+    .barra-titulo span {
+      color: #fff;
+      font-size: 13.5px;
+      font-weight: 700;
+      text-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);
+    }
+
+    .conteudo {
+      padding: 16px 20px 20px;
+    }
+
+    fieldset.bloco {
+      margin: 0 0 14px;
+      padding: 10px 12px 12px;
+      border: 1px solid var(--borda);
+      border-radius: 3px;
+    }
+    fieldset.bloco:last-child {
+      margin-bottom: 0;
+    }
+    fieldset.bloco legend {
+      padding: 0 5px;
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--texto-suave);
+    }
+    .descricao {
+      margin: -2px 0 10px;
+      font-size: 12px;
+      color: var(--texto-suave);
+    }
+
+    .opcao-linha {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 12px;
       padding: 6px 0;
       cursor: pointer;
     }
-    .tipos label {
-      padding-left: 12px;
+    .subopcoes .opcao-linha {
+      padding-left: 14px;
+      font-size: 12.5px;
+      color: var(--texto-suave);
     }
-    select {
-      padding: 4px;
+    .check {
+      accent-color: var(--acao-b);
+      width: 15px;
+      height: 15px;
+      cursor: pointer;
     }
-    hr {
-      border: none;
-      border-top: 1px solid var(--border);
-      margin: 8px 0;
+    .check:disabled {
+      opacity: 0.4;
+      cursor: default;
+    }
+
+    .select-uf {
+      font-size: 12.5px;
+      background: var(--campo-bg);
+      color: var(--texto);
+      border: 1px solid var(--borda);
+      border-radius: 2px;
+      box-shadow: inset 1px 1px 2px var(--sombra-escura);
+      padding: 3px 4px;
+    }
+    .select-uf:disabled {
+      opacity: 0.4;
     }
   </style>
 </head>
 <body>
-  <h1>Sugestão de autopreenchimento</h1>
-
-  <div class="cartao">
-    <label>
-      Ativar sugestões nas páginas
-      <input type="checkbox" id="ativo" />
-    </label>
-    <hr />
-    <div class="tipos">
-      <label>
-        CPF
-        <input type="checkbox" id="cpf" />
-      </label>
-      <label>
-        RG
-        <input type="checkbox" id="rg" />
-      </label>
-      <label>
-        CNPJ
-        <input type="checkbox" id="cnpj" />
-      </label>
-      <label>
-        Inscrição Estadual (IE)
-        <input type="checkbox" id="ie" />
-      </label>
+  <div class="janela-dialogo">
+    <div class="barra-titulo">
+      <img src="icons/icone-16.png" alt="" />
+      <span>Opções do Gerador de Documentos</span>
     </div>
-  </div>
 
-  <div class="cartao">
-    <label>
-      Estado (UF) usado para gerar a IE
-      <select id="ufIE"></select>
-    </label>
-  </div>
+    <div class="conteudo">
+      <fieldset class="bloco">
+        <legend>Autopreenchimento</legend>
+        <label class="opcao-linha">
+          <span>Ativar sugestões nas páginas</span>
+          <input type="checkbox" id="ativo" class="check" />
+        </label>
+        <div class="subopcoes">
+          <label class="opcao-linha">
+            <span>CPF</span>
+            <input type="checkbox" id="cpf" class="check" />
+          </label>
+          <label class="opcao-linha">
+            <span>RG</span>
+            <input type="checkbox" id="rg" class="check" />
+          </label>
+          <label class="opcao-linha">
+            <span>CNPJ</span>
+            <input type="checkbox" id="cnpj" class="check" />
+          </label>
+          <label class="opcao-linha">
+            <span>Inscrição Estadual (IE)</span>
+            <input type="checkbox" id="ie" class="check" />
+          </label>
+        </div>
+      </fieldset>
 
-  <h1>Personalizar</h1>
-  <p>Esconda no menu da extensão o que você não usa, para deixar menos poluído.</p>
+      <fieldset class="bloco">
+        <legend>Estado para gerar IE</legend>
+        <label class="opcao-linha">
+          <span>UF utilizada nas sugestões</span>
+          <select id="ufIE" class="select-uf"></select>
+        </label>
+      </fieldset>
 
-  <div class="cartao">
-    <div class="tipos">
-      <label>
-        Botão de tema
-        <input type="checkbox" id="popup-tema" />
-      </label>
-      <label>
-        CPF
-        <input type="checkbox" id="popup-cpf" />
-      </label>
-      <label>
-        RG
-        <input type="checkbox" id="popup-rg" />
-      </label>
-      <label>
-        CNPJ
-        <input type="checkbox" id="popup-cnpj" />
-      </label>
-      <label>
-        Inscrição Estadual (IE)
-        <input type="checkbox" id="popup-ie" />
-      </label>
+      <fieldset class="bloco">
+        <legend>Personalizar menu</legend>
+        <p class="descricao">Esconda no menu da extensão o que você não usa.</p>
+        <div class="subopcoes">
+          <label class="opcao-linha">
+            <span>Botão de tema</span>
+            <input type="checkbox" id="popup-tema" class="check" />
+          </label>
+          <label class="opcao-linha">
+            <span>CPF</span>
+            <input type="checkbox" id="popup-cpf" class="check" />
+          </label>
+          <label class="opcao-linha">
+            <span>RG</span>
+            <input type="checkbox" id="popup-rg" class="check" />
+          </label>
+          <label class="opcao-linha">
+            <span>CNPJ</span>
+            <input type="checkbox" id="popup-cnpj" class="check" />
+          </label>
+          <label class="opcao-linha">
+            <span>Inscrição Estadual (IE)</span>
+            <input type="checkbox" id="popup-ie" class="check" />
+          </label>
+        </div>
+      </fieldset>
     </div>
   </div>
 
