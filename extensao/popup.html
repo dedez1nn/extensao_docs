@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <title>Gerador de CPF e RG</title>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --fg: #1a1a1a;
+      --btn-bg: #f0f0f0;
+      --btn-hover: #e0e0e0;
+      --border: #cccccc;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme]) {
+        --bg: #1e1e1e;
+        --fg: #e8e8e8;
+        --btn-bg: #333333;
+        --btn-hover: #444444;
+        --border: #555555;
+      }
+    }
+    :root[data-theme="dark"] {
+      --bg: #1e1e1e;
+      --fg: #e8e8e8;
+      --btn-bg: #333333;
+      --btn-hover: #444444;
+      --border: #555555;
+    }
+    :root[data-theme="light"] {
+      --bg: #ffffff;
+      --fg: #1a1a1a;
+      --btn-bg: #f0f0f0;
+      --btn-hover: #e0e0e0;
+      --border: #cccccc;
+    }
+    body {
+      width: 260px;
+      font-family: sans-serif;
+      padding: 12px;
+      background: var(--bg);
+      color: var(--fg);
+    }
+    button {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 8px;
+      cursor: pointer;
+      background: var(--btn-bg);
+      color: var(--fg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+    }
+    button:hover {
+      background: var(--btn-hover);
+    }
+    .resultado {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+    .resultado input {
+      flex: 1;
+      font-family: monospace;
+      padding: 4px;
+      background: var(--bg);
+      color: var(--fg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+    }
+    .resultado button {
+      width: auto;
+      margin-bottom: 0;
+    }
+    #btn-tema {
+      background: transparent;
+      font-size: 12px;
+      padding: 4px;
+    }
+  </style>
+</head>
+<body>
+  <button id="btn-tema">Tema: Automático</button>
+  <button id="btn-cpf">Gerar CPF</button>
+  <div class="resultado">
+    <input id="cpf" type="text" readonly />
+    <button id="copiar-cpf">Copiar</button>
+  </div>
+
+  <button id="btn-rg">Gerar RG</button>
+  <div class="resultado">
+    <input id="rg" type="text" readonly />
+    <button id="copiar-rg">Copiar</button>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

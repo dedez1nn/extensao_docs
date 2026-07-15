@@ -1,0 +1,14 @@
+{
+  "manifest_version": 3,
+  "name": "Gerador CPF/RG",
+  "version": "1.0",
+  "description": "Gera números de CPF e RG (formato válido) para uso em testes.",
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "gerador-cpf-rg@andrelmi"
+    }
+  }
+}
