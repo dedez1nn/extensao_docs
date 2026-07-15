@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="extensao/icons/icone-128.png" alt="Logo do Gerador de Documentos" width="96" height="96">
+</p>
+
 # Gerador de Documentos (CPF/RG/CNPJ/IE)
 
 Ferramentas para gerar CPF, RG, CNPJ e Inscrição Estadual com formato e dígitos verificadores válidos, para uso em testes de software. Os números são aleatórios e não correspondem a pessoas ou empresas reais.

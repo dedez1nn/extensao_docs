@@ -32,7 +32,10 @@
   ],
   "browser_specific_settings": {
     "gecko": {
-      "id": "gerador-cpf-rg@andrelmi"
+      "id": "gerador-cpf-rg@andrelmi",
+      "data_collection_permissions": {
+        "required": ["none"]
+      }
     }
   }
 }
