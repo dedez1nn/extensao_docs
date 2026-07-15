@@ -2,14 +2,19 @@
   "manifest_version": 3,
   "name": "Gerador CPF/RG",
   "version": "1.0",
-  "description": "Gera números de CPF e RG (formato válido) para uso em testes.",
+  "description": "Gera CPF, RG, CNPJ e Inscrição Estadual (formato válido) para uso em testes.",
   "action": {
     "default_popup": "popup.html"
+  },
+  "permissions": ["storage"],
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true
   },
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["gerador.js", "content.js"],
+      "js": ["gerador.js", "configuracao.js", "content.js"],
       "run_at": "document_idle"
     }
   ],

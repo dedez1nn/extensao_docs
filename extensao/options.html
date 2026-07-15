@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <title>Opções - Gerador CPF/RG</title>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --fg: #1a1a1a;
+      --border: #cccccc;
+      --card-bg: #f7f7f7;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #1e1e1e;
+        --fg: #e8e8e8;
+        --border: #444444;
+        --card-bg: #2a2a2a;
+      }
+    }
+    body {
+      max-width: 480px;
+      margin: 24px auto;
+      font-family: sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      padding: 0 16px;
+    }
+    h1 {
+      font-size: 18px;
+    }
+    .cartao {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 0;
+      cursor: pointer;
+    }
+    .tipos label {
+      padding-left: 12px;
+    }
+    select {
+      padding: 4px;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 8px 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>Sugestão de autopreenchimento</h1>
+
+  <div class="cartao">
+    <label>
+      Ativar sugestões nas páginas
+      <input type="checkbox" id="ativo" />
+    </label>
+    <hr />
+    <div class="tipos">
+      <label>
+        CPF
+        <input type="checkbox" id="cpf" />
+      </label>
+      <label>
+        RG
+        <input type="checkbox" id="rg" />
+      </label>
+      <label>
+        CNPJ
+        <input type="checkbox" id="cnpj" />
+      </label>
+      <label>
+        Inscrição Estadual (IE)
+        <input type="checkbox" id="ie" />
+      </label>
+    </div>
+  </div>
+
+  <div class="cartao">
+    <label>
+      Estado (UF) usado para gerar a IE
+      <select id="ufIE"></select>
+    </label>
+  </div>
+
+  <h1>Personalizar</h1>
+  <p>Esconda no menu da extensão o que você não usa, para deixar menos poluído.</p>
+
+  <div class="cartao">
+    <div class="tipos">
+      <label>
+        Botão de tema
+        <input type="checkbox" id="popup-tema" />
+      </label>
+      <label>
+        CPF
+        <input type="checkbox" id="popup-cpf" />
+      </label>
+      <label>
+        RG
+        <input type="checkbox" id="popup-rg" />
+      </label>
+      <label>
+        CNPJ
+        <input type="checkbox" id="popup-cnpj" />
+      </label>
+      <label>
+        Inscrição Estadual (IE)
+        <input type="checkbox" id="popup-ie" />
+      </label>
+    </div>
+  </div>
+
+  <script src="estados.js"></script>
+  <script src="configuracao.js"></script>
+  <script src="options.js"></script>
+</body>
+</html>

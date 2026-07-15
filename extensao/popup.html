@@ -35,7 +35,7 @@
       --border: #cccccc;
     }
     body {
-      width: 260px;
+      width: 270px;
       font-family: sans-serif;
       padding: 12px;
       background: var(--bg);
@@ -60,14 +60,25 @@
       gap: 6px;
       margin-bottom: 10px;
     }
-    .resultado input {
-      flex: 1;
+    .resultado input,
+    .resultado select {
       font-family: monospace;
-      padding: 4px;
+      padding: 2px;
       background: var(--bg);
       color: var(--fg);
       border: 1px solid var(--border);
       border-radius: 4px;
+    }
+    .resultado input {
+      flex: 1;
+    }
+    .resultado select {
+      flex: 0 0 auto;
+      width: 88px;
+    }
+    #ie {
+      flex: 0 0 auto;
+      width: auto;
     }
     .resultado button {
       width: auto;
@@ -81,20 +92,50 @@
   </style>
 </head>
 <body>
-  <button id="btn-tema">Tema: Automático</button>
-  <button id="btn-cpf">Gerar CPF</button>
-  <div class="resultado">
-    <input id="cpf" type="text" readonly />
-    <button id="copiar-cpf">Copiar</button>
+  <div class="secao" id="secao-tema">
+    <button id="btn-tema">Tema: Automático</button>
   </div>
 
-  <button id="btn-rg">Gerar RG</button>
-  <div class="resultado">
-    <input id="rg" type="text" readonly />
-    <button id="copiar-rg">Copiar</button>
+  <div class="secao" id="secao-cpf">
+    <button id="btn-cpf">Gerar CPF</button>
+    <div class="resultado">
+      <input id="cpf" type="text" readonly />
+      <button id="copiar-cpf">Copiar</button>
+    </div>
   </div>
 
+  <div class="secao" id="secao-rg">
+    <button id="btn-rg">Gerar RG</button>
+    <div class="resultado">
+      <input id="rg" type="text" readonly />
+      <button id="copiar-rg">Copiar</button>
+    </div>
+  </div>
+
+  <div class="secao" id="secao-cnpj">
+    <button id="btn-cnpj">Gerar CNPJ</button>
+    <div class="resultado">
+      <input id="cnpj" type="text" readonly />
+      <button id="copiar-cnpj">Copiar</button>
+    </div>
+  </div>
+
+  <div class="secao" id="secao-ie">
+    <div class="resultado">
+      <select id="uf-ie"></select>
+      <button id="btn-ie">Gerar</button>
+      <button id="copiar-ie">Copiar</button>
+    </div>
+    <div class="resultado">
+      <input id="ie" size="14" type="text" readonly />
+    </div>
+  </div>
+
+  <button id="btn-opcoes">Opções da extensão</button>
+
+  <script src="estados.js"></script>
   <script src="gerador.js"></script>
+  <script src="configuracao.js"></script>
   <script src="popup.js"></script>
 </body>
 </html>

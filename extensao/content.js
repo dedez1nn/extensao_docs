@@ -1,6 +1,24 @@
 (function () {
+  const REGEX_CNPJ = /\bcnpj\b/i;
   const REGEX_CPF = /\bcpf\b/i;
+  const REGEX_IE = /inscri[cç][aã]o\s*estadual|\bie\b/i;
   const REGEX_RG = /\brg\b|registro\s*geral|identidade/i;
+
+  const ROTULOS_SUGESTAO = {
+    cpf: '🔑 Preencher CPF gerado',
+    rg: '🔑 Preencher RG gerado',
+    cnpj: '🔑 Preencher CNPJ gerado',
+    ie: '🔑 Preencher IE gerada',
+  };
+
+  let config = CONFIG_PADRAO;
+  carregarConfiguracao((c) => { config = c; });
+
+  chrome.storage.onChanged.addListener((mudancas) => {
+    for (const chave in mudancas) {
+      config[chave] = mudancas[chave].newValue;
+    }
+  });
 
   function textoAssociado(input) {
     const partes = [];
@@ -22,9 +40,13 @@
   }
 
   function tipoCampo(input) {
+    if (!config.ativo) return null;
+
     const texto = textoAssociado(input);
-    if (REGEX_CPF.test(texto)) return 'cpf';
-    if (REGEX_RG.test(texto)) return 'rg';
+    if (config.cnpj && REGEX_CNPJ.test(texto)) return 'cnpj';
+    if (config.cpf && REGEX_CPF.test(texto)) return 'cpf';
+    if (config.ie && REGEX_IE.test(texto)) return 'ie';
+    if (config.rg && REGEX_RG.test(texto)) return 'rg';
     return null;
   }
 
@@ -39,8 +61,18 @@
     }
   }
 
+  function gerarValor(tipo) {
+    switch (tipo) {
+      case 'cpf': return gerarCPF();
+      case 'rg': return gerarRG();
+      case 'cnpj': return gerarCNPJ();
+      case 'ie': return gerarIE(config.ufIE);
+      default: return '';
+    }
+  }
+
   function preencher(input, tipo) {
-    const valor = tipo === 'cpf' ? gerarCPF() : gerarRG();
+    const valor = gerarValor(tipo);
     const setter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value').set;
     setter.call(input, valor);
     input.dispatchEvent(new Event('input', { bubbles: true }));
@@ -52,7 +84,7 @@
 
     const rect = input.getBoundingClientRect();
     sugestaoEl = document.createElement('div');
-    sugestaoEl.textContent = tipo === 'cpf' ? '🔑 Preencher CPF gerado' : '🔑 Preencher RG gerado';
+    sugestaoEl.textContent = ROTULOS_SUGESTAO[tipo];
 
     Object.assign(sugestaoEl.style, {
       position: 'fixed',
